@@ -63,4 +63,6 @@ int main()
 
 	printf("These numbers are primes:\n");
 	filter(isprime,vector,n);
+	
+	free(vector);
 }
