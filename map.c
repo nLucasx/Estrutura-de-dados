@@ -19,10 +19,10 @@ int square(int x)
 {
 	return x * x;
 }
-void map(int (*function)(int x), int *vector, int n)
+void map(int (*function)(int x), int *vector, int size)
 {
 	int i;
-	for (i = 0; i < n; i++)
+	for (i = 0; i < size; i++)
 	{
 		printf("%d ", (*function)(vector[i]));
 	}
