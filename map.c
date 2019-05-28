@@ -46,6 +46,7 @@ int main(){
 
 	printf("The square of numbers in your array:\n");
 	map(square,vector,n);
+	free(vector);
 
 
 
