@@ -29,20 +29,52 @@ void mostra_alunos(dados *cabeca)
 		cabeca = cabeca->proximo;
 	}
 }
-void busca_aluno(char aluno[40], dados *cabeca)
+void imprime_aluno(int flag, dados *cabeca)
 {
-    if (strcasecmp(cabeca->nome, aluno) == 0)
+    if (flag)
     {
         printf("Aluno %s", cabeca->nome);
 		printf("Idade: %d\n", cabeca->idade);
 		printf("Cpf: %s\n", cabeca->cpf);
 		printf("Sexo: %c\n\n", cabeca->sexo);            
     }
-    else
-    {
-        if (cabeca->proximo != NULL) busca_aluno(aluno, cabeca->proximo);
-        else printf("Aluno nao encontrado");
-    }
+    else printf("Aluno nao encontrado");
+}
+int existe_aluno(char aluno[40], dados *cabeca)
+{
+	if (strcasecmp(cabeca->nome, aluno) == 0)
+	{
+		return 1;
+	}
+	else
+	{
+		if (cabeca->proximo != NULL) return existe_aluno(aluno, cabeca->proximo);
+        else return 0;
+	}
+}
+dados * retorna_posicao(char aluno[40], dados *cabeca)
+{
+	if (strcasecmp(cabeca->proximo->nome, aluno) == 0)
+	{
+		return cabeca;
+	}
+	retorna_posicao(aluno, cabeca->proximo);
+}
+void apaga_aluno(char aluno[40], dados *cabeca)
+{
+	if (existe_aluno(aluno,cabeca))
+	{
+		cabeca = retorna_posicao(aluno,cabeca);
+		dados *auxiliar;
+		auxiliar = cabeca->proximo;
+		cabeca->proximo = auxiliar->proximo;
+		free(auxiliar);
+		printf("Aluno apagado com sucesso!\n");
+	}
+	else
+	{
+		printf("O Aluno nao esta cadastrado!\n");
+	}
 }
 int main()
 {
@@ -72,6 +104,7 @@ int main()
     printf("O que deseja?\n");
     printf("[1] Buscar um aluno\n");
     printf("[2] Mostrar todos os alunos\n");
+    printf("[3] Apagar um aluno cadastrado\n");
     scanf("%d", &escolha);
     getchar();
     system("clear");
@@ -81,12 +114,24 @@ int main()
         printf("Qual aluno voce quer buscar?\n");
         fgets(aluno,40,stdin);
         system("clear");
-        busca_aluno(aluno,cadastra);
+        imprime_aluno(existe_aluno(aluno,cadastra),cadastra);
     }
     else if (escolha == 2)
     {
         system("clear");
         mostra_alunos(cadastra);
+    }
+    else if (escolha == 3)
+    {
+    	printf("De qual aluno voce quer apagar o cadastro?\n");
+    	fgets(aluno,40,stdin);
+    	system("clear");
+    	int existe = existe_aluno(aluno, cadastra);
+    	apaga_aluno(aluno, cadastra);
+    	if (existe)
+    	{
+    		mostra_alunos(cadastra);	
+    	}
     }
     else
     {
