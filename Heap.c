@@ -12,19 +12,19 @@ HEAP *cria_heap()
 {
     HEAP *nova_heap = malloc(sizeof(HEAP));
     nova_heap->tam_atual = 0;
-    return nova_heap
+    return nova_heap;
 }
 int indice_pai(int i)
 {
-    return i >> 1;
+    return i/2;
 }
 int indice_esquerda(int i)
 {
-    return i << 1;
+    return 2*i;
 }
 int indice_direita(int i)
 {
-    return (i << 1) + 1;
+    return (2*i) + 1;
 }
 void maxheapify(HEAP *heap, int i)
 {
@@ -69,16 +69,6 @@ int dequeue(HEAP *heap)
         heap->dados[1] = heap->dados[heap->tam_atual];
         heap->tam_atual--;
         max_heapify(heap, 1);
+	return valor;
     }
-}
-int main() {
-	HEAP *heap = cria_heap();
-	int array[MAX], i = 0;
-	
-	while (scanf("%d", &array[i]) != EOF)
-	{
-	    enqueue(heap, array[i]);
-	    i++;
-	}
-	return 0;
 }
